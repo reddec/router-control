@@ -1,5 +1,6 @@
 # Programatic control for RV6688BCM (or similar) router
 
+[⟹ Releases are here ⟸](https://github.com/reddec/router-control/releases)
 
 This is library and CLI utils to control the router. It depends on python *3.5* and requests library.
 
@@ -37,3 +38,4 @@ optional arguments:
   -h, --help            show this help message and exit
   -i IP, --ip IP        IP address of the router
 ```
+
