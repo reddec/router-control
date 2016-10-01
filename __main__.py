@@ -27,7 +27,7 @@ from router import *
 def cli():
     # This is full CLI utility to control NAT in the router
 
-    parser = argparse.ArgumentParser('Control RVCM router')
+    parser = argparse.ArgumentParser(description='Control RVCM router')
     parser.add_argument('-i', '--ip', required=True, help='IP address of the router')
     cmds = parser.add_subparsers(help='<sub-command> help', dest='command')
 
