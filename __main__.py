@@ -29,6 +29,8 @@ def cli():
 
     parser = argparse.ArgumentParser(description='Control RVCM router')
     parser.add_argument('-i', '--ip', required=True, help='IP address of the router')
+    parser.add_argument('-u', '--user', default='admin', help='Username of web panel in the router')
+    parser.add_argument('-p', '--password', default='admin', help='Password of web panel in the router')
     cmds = parser.add_subparsers(help='<sub-command> help', dest='command')
 
     info_cmd = cmds.add_parser('info', help='Get information about router')
@@ -72,7 +74,7 @@ def cli():
     nat_remove_cmd.add_argument('name', type=str, help='Name of forwarding rule')
 
     args = parser.parse_args()
-    router = Router(args.ip)
+    router = Router(args.ip, args.user, args.password)
     if args.command == 'info' or args.command is None:
         info = router.get_info()
         print(info.pretty())

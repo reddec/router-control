@@ -15,7 +15,7 @@ Command: `python router.pyz -i 192.168.100.1 --help`
 provides this output:
 
 ```
-usage: router.pyz [-h] -i IP
+usage: router.pyz [-h] -i IP [-u USER] [-p PASSWORD]
                   {info,apply,nat,create,enable,disable,update,rename,remove}
                   ...
 
@@ -37,5 +37,8 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -i IP, --ip IP        IP address of the router
+  -u USER, --user USER  Username of web panel in the router
+  -p PASSWORD, --password PASSWORD
+                        Password of web panel in the router
 ```
 

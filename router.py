@@ -236,7 +236,9 @@ class Router:
 
     def __get_and_parse(self, cls):
         instance = cls()
-        instance.parse(requests.get(self.url + cls.URL, auth=HTTPDigestAuth(self.user, self.password)).text)
+        resp = requests.get(self.url + cls.URL, auth=HTTPDigestAuth(self.user, self.password))
+        assert resp.status_code == 200, resp.text
+        instance.parse(resp.text)
         return instance
 
     def __post(self, instance):
