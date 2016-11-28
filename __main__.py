@@ -207,7 +207,7 @@ def cli():
                " {calling_ip:16}" \
                " {called_phone:16}" \
                " {called_ip:16}" \
-               " {duration:9}" \
+               " {duration:8}" \
                " {stamp:19}"
         print(line.format(
             line='LINE',
