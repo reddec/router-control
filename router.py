@@ -19,6 +19,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import json
+import re
+from datetime import datetime
 from enum import Enum
 from typing import List
 
@@ -104,6 +107,93 @@ class Info:
         lines += ["LAN status      : {}".format("OK" if self.lan_line_up else "Unavailable")]
         lines += ["Unsaved changes : {}".format("Yes" if self.apply_required else "No")]
         return "\n".join(lines)
+
+    def __repr__(self):
+        return self.__class__.__name__ + "(" + ",\n   ".join(k + "=" + repr(v) for k, v in self.__dict__.items()) + ")"
+
+    def __str__(self):
+        return repr(self)
+
+
+class Abonent:
+    """
+    Keep IP and phone number
+    """
+
+    def __init__(self, phone: str, ip: str):
+        self.phone = phone
+        self.ip = ip
+
+    def __repr__(self):
+        return self.__class__.__name__ + "(" + ",\n   ".join(k + "=" + repr(v) for k, v in self.__dict__.items()) + ")"
+
+    def __str__(self):
+        return repr(self)
+
+
+class Call:
+    """
+    Describe single call history record
+    """
+
+    def __init__(self, line: int, direction: str, calling: Abonent, called: Abonent, duration_seconds: int,
+                 stamp: datetime, status: str):
+        self.line = line
+        self.direction = direction
+        self.calling = calling
+        self.called = called
+        self.duration = duration_seconds
+        self.stamp = stamp
+        self.status = status
+
+    def __repr__(self):
+        return self.__class__.__name__ + "(" + ",\n   ".join(k + "=" + repr(v) for k, v in self.__dict__.items()) + ")"
+
+    def __str__(self):
+        return repr(self)
+
+
+class Calls:
+    """
+    Describes collection of calls history
+    """
+    URL = '/voice_call_logs.htm?l0=3&l1=2&l2=1&l3=-1'
+
+    def __init__(self, calls: List[Call] = None):
+        self.calls = calls or []
+
+    def parse(self, page: str):
+        keyword = 'var call_logs ='
+        line = '[]'
+        for ln in page.splitlines():
+            index = ln.find(keyword)
+            if index != -1:
+                line = ln[index + len(keyword):-1]
+                break
+        records = json.loads(line)
+        # Example:
+        # "line 0, Answered, IN, Calling:0000000000000;cpc-rus=1;phone-cont(55.66.77.88),
+        # Called:+100000000(11.22.33.44), Duration:0h:15m:34s, Mon Nov 28 19:43:31 2016"
+        calls = []
+        abonent_pattern = re.compile(r'(?P<phone>[0-9\+\-]+).*\((?P<ip>.*?)\)')
+        for record in records:
+            line, status, direction, source, target, duration, stamp = map(str.strip, record.split(','))
+            line_num = int(line.split()[1])
+            calling_phone, calling_ip = abonent_pattern.findall(source.split(':')[1])[0]
+            called_phone, called_ip = abonent_pattern.findall(target.split(':')[1])[0]
+            _, span = duration.split(':', 1)
+            h, m, s = span.split(':')
+            seconds = int(h[:-1]) * 3600 + int(m[:-1]) * 60 + int(s[:-1])
+            calls.append(Call(
+                line=line_num,
+                direction=direction.upper(),
+                calling=Abonent(phone=calling_phone, ip=calling_ip),
+                called=Abonent(phone=called_phone, ip=called_ip),
+                duration_seconds=seconds,
+                stamp=datetime.strptime(stamp, '%a %b %d %H:%M:%S %Y'),
+                status=status
+            ))
+        self.calls = calls
 
     def __repr__(self):
         return self.__class__.__name__ + "(" + ",\n   ".join(k + "=" + repr(v) for k, v in self.__dict__.items()) + ")"
@@ -286,3 +376,9 @@ class Router:
         Post new NAT table to the router
         """
         self.__post(value)
+
+    def get_calls(self) -> Calls:
+        """
+        Get history of the calls
+        """
+        return self.__get_and_parse(Calls)

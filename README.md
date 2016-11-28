@@ -33,6 +33,7 @@ positional arguments:
     update              Update single port forwarding rule
     rename              Rename port forwarding rule
     remove              Remove port forwarding rule
+    calls               Get calls history
 
 optional arguments:
   -h, --help            show this help message and exit

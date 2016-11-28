@@ -73,6 +73,8 @@ def cli():
     nat_remove_cmd = cmds.add_parser('remove', help='Remove port forwarding rule')
     nat_remove_cmd.add_argument('name', type=str, help='Name of forwarding rule')
 
+    calls_cmd = cmds.add_parser('calls', help='Get calls history')
+
     args = parser.parse_args()
     router = Router(args.ip, args.user, args.password)
     if args.command == 'info' or args.command is None:
@@ -197,6 +199,40 @@ def cli():
             router.update_nat(nat)
         else:
             print("nothing to rename")
+    elif args.command == 'calls':
+        line = "{line:4}" \
+               " {direction:9}" \
+               " {status:9}" \
+               " {calling_phone:13}" \
+               " {calling_ip:16}" \
+               " {called_phone:16}" \
+               " {called_ip:16}" \
+               " {duration:9}" \
+               " {stamp:19}"
+        print(line.format(
+            line='LINE',
+            direction='DIRECTION',
+            status='STATUS',
+            calling_phone='CALLING-PHONE',
+            calling_ip='CALLING-IP',
+            called_phone='CALLED-PHONE',
+            called_ip='CALLING-IP',
+            duration='DURATION',
+            stamp='STAMP'
+
+        ))
+        for call in router.get_calls().calls:
+            print(line.format(
+                line=call.line,
+                direction=call.direction,
+                status=call.status,
+                calling_phone=call.calling.phone,
+                calling_ip=call.calling.ip,
+                called_phone=call.called.phone,
+                called_ip=call.called.ip,
+                duration=call.duration,
+                stamp=call.stamp.isoformat('T')
+            ))
 
 
 if __name__ == '__main__':
