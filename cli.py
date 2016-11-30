@@ -44,9 +44,9 @@ class Context:
 
 
 @click.group()
-@click.option('--ip', default="", help='Router IP')
-@click.option('--user', default="admin", help='Login name')
-@click.option('--password', default="admin", help='Password')
+@click.option('--ip', envvar='RC_IP', default="", help='Router IP')
+@click.option('--user', envvar='RC_USER', default="admin", help='Login name')
+@click.option('--password', envvar='RC_PASSWORD', default="admin", help='Password')
 @click.pass_context
 def cli(ctx, ip, user, password):
     ctx.obj = Context(ip, user, password)

@@ -10,8 +10,6 @@ See API in source code - it's really simple and short.
 
 CLI also have a `--help` for options =). You may start from this command: `python router.pyz --help`, where `python` must be python 3.5 or higher.
 
-
-
 provides this output:
 
 ```
@@ -28,6 +26,12 @@ Commands:
   nat     NAT operations
   router  Direct router operations
 ```
+
+The router-control supports basic environment variables (in addition to command line arguments):
+
+* `RC_IP` - IP address to router
+* `RC_USER` - Login name to router (default: admin)
+* `RC_PASSWORD` - Password to router (default: admin)
 
 
 ## Router operations
