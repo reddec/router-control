@@ -10,38 +10,79 @@ See API in source code - it's really simple and short.
 
 CLI also have a `--help` for options =). You may start from this command: `python router.pyz --help`, where `python` must be python 3.5 or higher.
 
-Example:
 
-Command: `python router.pyz -i 192.168.100.1 --help`
 
 provides this output:
 
 ```
-usage: router.pyz [-h] -i IP [-u USER] [-p PASSWORD]
-                  {info,apply,nat,create,enable,disable,update,rename,remove}
-                  ...
+usage: router.pyz [OPTIONS] COMMAND [ARGS]...
 
-Control RVCM router
+Options:
+  --ip TEXT        Router IP
+  --user TEXT      Login name
+  --password TEXT  Password
+  --help           Show this message and exit.
 
-positional arguments:
-  {info,apply,nat,create,enable,disable,update,rename,remove}
-                        <sub-command> help
-    info                Get information about router
-    apply               Apply changes to the router
-    nat                 Get current NAT table
-    create              Create port forwarding rule
-    enable              Enable single port forwarding rule
-    disable             Disable single port forwarding rule
-    update              Update single port forwarding rule
-    rename              Rename port forwarding rule
-    remove              Remove port forwarding rule
-    calls               Get calls history
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -i IP, --ip IP        IP address of the router
-  -u USER, --user USER  Username of web panel in the router
-  -p PASSWORD, --password PASSWORD
-                        Password of web panel in the router
+Commands:
+  calls   Calls operations
+  nat     NAT operations
+  router  Direct router operations
 ```
 
+
+## Router operations
+
+```
+Usage: router.pyz router [OPTIONS] COMMAND [ARGS]...
+
+  Direct router operations
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  apply   Apply changes on the router
+  export  Print details about router in json
+  info    Print details about router
+
+```
+
+Example:
+
+Command: `python router.pyz --ip 192.168.100.1 router info`
+
+## NAT operations
+
+```
+Usage: router.pyz nat [OPTIONS] COMMAND [ARGS]...
+
+  NAT operations
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  create   Create forwarding rule
+  disable  Disable (but not remove) rule
+  enable   Enable rule
+  info     Print forwarding table
+  remove   Remove forwarding rule
+  rename   Rename forwarding rule
+  update   Update forwarding record
+
+```
+
+## Calls operations
+
+```
+Usage: router.pyz calls [OPTIONS] COMMAND [ARGS]...
+
+  Calls operations
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  export  Print calls history in JSON
+  info    Print calls history
+```

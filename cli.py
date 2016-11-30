@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 This is library and CLI utils for controlling RV6688BCM router
 It is required python 3.5 or higher and requests library (due to Digest HTTP auth)
@@ -19,12 +18,35 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+import click
+import requests
+from requests.auth import HTTPDigestAuth
 
-# Import for Click support
-import router
-import calls
-import nat
-from cli import *
 
-if __name__ == '__main__':
-    cli()
+class Context:
+    def __init__(self, ip, user, password):
+        self.auth = HTTPDigestAuth(user, password)
+        self.url = "http://" + ip
+        self.ip = ip
+
+    def getter(self, url):
+        resp = requests.get(self.url + url, auth=self.auth)
+        assert resp.status_code == 200, resp.text
+        return resp
+
+    def poster(self, url, data, referer=""):
+        resp = requests.post(self.url + url, data=data, auth=self.auth,
+                             headers={
+                                 'Referer': self.url + referer
+                             })
+        t = resp.text
+        assert resp.status_code == 200, t
+
+
+@click.group()
+@click.option('--ip', default="", help='Router IP')
+@click.option('--user', default="admin", help='Login name')
+@click.option('--password', default="admin", help='Password')
+@click.pass_context
+def cli(ctx, ip, user, password):
+    ctx.obj = Context(ip, user, password)
