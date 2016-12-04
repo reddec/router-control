@@ -1,6 +1,8 @@
 # Programatic control for RV6688BCM (or similar) router
 
-[⟹ Releases are here ⟸](https://github.com/reddec/router-control/releases)
+[![Development Status](https://img.shields.io/pypi/status/rvcm.svg)](https://pypi.python.org/pypi/rvcm/)
+ [![PyPI version](https://img.shields.io/pypi/v/rvcm.svg)](https://pypi.python.org/pypi/rvcm/)
+[![Python version](https://img.shields.io/pypi/pyversions/rvcm.svg)](https://pypi.python.org/pypi/rvcm/)
 
 This is library and CLI utils to control the router. It depends on python *3.5* and requests library.
 
