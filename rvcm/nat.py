@@ -20,7 +20,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 from enum import Enum
 from typing import List
-from cli import *
+from rvcm.cli import *
 
 
 class ForwardType(Enum):

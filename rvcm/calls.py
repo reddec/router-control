@@ -20,7 +20,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 from typing import List
 from datetime import datetime
-from cli import *
+from rvcm.cli import *
 import re
 import json
 

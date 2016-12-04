@@ -26,7 +26,7 @@ setup(
     install_requires=['click>=6.4', 'requests>=2.10', 'lxml>=3.6'],
     entry_points={
         'console_scripts': [
-            'rvcm=rvcm.cli:cli'
+            'rvcm=rvcm.__main__:main'
         ]
     }
 )

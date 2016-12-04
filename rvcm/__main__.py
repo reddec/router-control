@@ -21,10 +21,15 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 
 # Import for Click support
-import router
-import calls
-import nat
-from cli import *
+from rvcm import router
+from rvcm import calls
+from rvcm import nat
+from rvcm.cli import *
+
+
+def main():
+    cli()
+
 
 if __name__ == '__main__':
-    cli()
+    main()
