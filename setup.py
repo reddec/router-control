@@ -7,7 +7,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='rvcm',
-    version='1.0.7',
+    version='1.0.8',
     description='Control RV6688BCM router',
     long_description=long_description,
     url='https://github.com/reddec/router-control',
