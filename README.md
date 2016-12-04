@@ -8,12 +8,12 @@ This is library and CLI utils to control the router. It depends on python *3.5* 
 
 See API in source code - it's really simple and short.
 
-CLI also have a `--help` for options =). You may start from this command: `python router.pyz --help`, where `python` must be python 3.5 or higher.
+CLI also have a `--help` for options =). You may start from this command: `rvcm --help`, where `python` must be python 3.5 or higher.
 
 provides this output:
 
 ```
-usage: router.pyz [OPTIONS] COMMAND [ARGS]...
+usage: rvcm [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --ip TEXT        Router IP
@@ -37,7 +37,7 @@ The router-control supports basic environment variables (in addition to command 
 ## Router operations
 
 ```
-Usage: router.pyz router [OPTIONS] COMMAND [ARGS]...
+Usage: rvcm router [OPTIONS] COMMAND [ARGS]...
 
   Direct router operations
 
@@ -53,12 +53,12 @@ Commands:
 
 Example:
 
-Command: `python router.pyz --ip 192.168.100.1 router info`
+Command: `python rvcm --ip 192.168.100.1 router info`
 
 ## NAT operations
 
 ```
-Usage: router.pyz nat [OPTIONS] COMMAND [ARGS]...
+Usage: rvcm nat [OPTIONS] COMMAND [ARGS]...
 
   NAT operations
 
@@ -79,7 +79,7 @@ Commands:
 ## Calls operations
 
 ```
-Usage: router.pyz calls [OPTIONS] COMMAND [ARGS]...
+Usage: rvcm calls [OPTIONS] COMMAND [ARGS]...
 
   Calls operations
 
